@@ -24,4 +24,3 @@ class Settings(BaseSettings):
     
 
 settings = Settings()
-#print(settings.DB_PASS)
