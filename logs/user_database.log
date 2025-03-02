@@ -1,0 +1,4 @@
+2025-03-02T19:54:30.865741+0300 - database - INFO - Connected to database (mydatabase)
+2025-03-02T19:54:33.467379+0300 - userdatabase - INFO - Table vpn_user2 created
+2025-03-02T19:54:34.835273+0300 - userdatabase - INFO - User with email: piv2002@gmail.com already exists
+2025-03-02T19:54:36.664456+0300 - userdatabase - INFO - Password of user with email piv2002@gmail.com was updated

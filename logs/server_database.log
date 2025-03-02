@@ -1,0 +1,5 @@
+2025-03-02T19:54:39.158186+0300 - database - INFO - Connected to database (mydatabase)
+2025-03-02T19:54:39.160192+0300 - serverdatabase - INFO - ENUM type 'server_status' created or already exists.
+2025-03-02T19:54:40.313212+0300 - serverdatabase - INFO - Table vpn_server already exists
+2025-03-02T19:54:41.678726+0300 - serverdatabase - INFO - Server with name: FirstServer already exists
+2025-03-02T19:54:42.952068+0300 - database - INFO - Data from table vpn_server: [(1, 'FirstServer', '127.0.0.1:55555', 'Activate', 'Latvia')]

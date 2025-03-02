@@ -1,0 +1,4 @@
+2025-03-02T19:54:44.148073+0300 - database - INFO - Connected to database (mydatabase)
+2025-03-02T19:54:47.869022+0300 - conectdatabase - INFO - Table connections already exists
+2025-03-02T19:54:50.748046+0300 - conectdatabase - INFO - User with email pilv2022@gmail.com does not exist in table vpn_user2.
+2025-03-02T19:54:54.588220+0300 - database - INFO - Data from table connections: []
