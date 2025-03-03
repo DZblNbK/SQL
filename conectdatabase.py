@@ -5,12 +5,12 @@ from config import settings
 from datetime import datetime
 
 
-
+# Класс для работы с базой данных подключений
 class ConnectionDatabase(Database):
 
     def __init__(self, settings):
-        super().__init__(settings)
         self.logger = setup_logger('logs', 'connection_database.log')
+        super().__init__(settings, self.logger)
 
     
     def create_connection_table(self, table_name):
