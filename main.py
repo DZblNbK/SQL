@@ -1,5 +1,4 @@
 from config import settings
-from logger_setup import setup_logger
 from datetime import datetime
 from userdatabase import UserDatabase
 from conectdatabase import ConnectionDatabase
@@ -7,14 +6,14 @@ from serverdatabase import ServerDatabase
 import time
 
 
-def dbuser_fun(dbuser):
+def user_db_fun(user_db):
     
     table_name = 'vpn_user2'
     name = 'Ilya'
-    email = 'piv2002@gmail.com'
+    email = 'piv222@gmail.com'
     age = 22
-    passwd = '63613'
-    new_passwd = '09244'
+    password = '63613'
+    new_password = '09244'
 
     print(f'Таблица {table_name}')
     print("1 - Создать таблицу")
@@ -31,42 +30,42 @@ def dbuser_fun(dbuser):
 
     match choice:
             case '1':
-                dbuser.create_user_table(table_name)
-                dbuser_fun(dbuser)
+                user_db.create_user_table(table_name)
+                user_db_fun(user_db)
             case '2':
-                dbuser.insert_data(table_name, name, age, email, passwd)
-                dbuser_fun(dbuser)
+                user_db.insert_data(table_name, name, age, email, password)
+                user_db_fun(user_db)
             case '3':
-                dbuser.update_password_in_table(table_name, email, passwd, new_passwd)
-                dbuser_fun(dbuser)
+                user_db.update_password_in_table(table_name, email, password, new_password)
+                user_db_fun(user_db)
             case '4':
-                dbuser.update_table(table_name, email, name)
-                dbuser_fun(dbuser)
+                user_db.update_table(table_name, email, name)
+                user_db_fun(user_db)
             case '5':
-                dbuser.delete_duplicates(table_name)
-                dbuser_fun(dbuser)
+                user_db.delete_duplicates(table_name)
+                user_db_fun(user_db)
             case '6':
-                dbuser.display_table(table_name)
-                dbuser_fun(dbuser)
+                user_db.display_table(table_name)
+                user_db_fun(user_db)
             case '7':
-                dbuser.clear_table(table_name)
-                dbuser_fun(dbuser)
+                user_db.clear_table(table_name)
+                user_db_fun(user_db)
             case '8':
-                dbuser.delete_table(table_name)
-                dbuser_fun(dbuser)
+                user_db.delete_table(table_name)
+                user_db_fun(user_db)
             case '0':
                 return
             case _:
                 print("Некорректный выбор, попробуйте снова.")
 
 
-def dbserv_fun(dbserv):
+def server_db_fun(server_db):
 
     table_name = 'vpn_server'
-    server_name1 = 'FirstServer'
-    ip_address1_server = '127.0.0.1:55555'
-    status1 = 'Activate'
-    location1 = 'Latvia'
+    server_name = 'FirstServer'
+    server_ip_address = '127.0.0.1:55555'
+    status = 'Activate'
+    location = 'Latvia'
 
     print(f'Таблица {table_name}')
     print("1 - Создать таблицу")
@@ -80,36 +79,36 @@ def dbserv_fun(dbserv):
 
     match choice:
             case '1':
-                dbserv.create_server_table(table_name)
-                dbserv_fun(dbserv)
+                server_db.create_server_table(table_name)
+                server_db_fun(server_db)
             case '2':
-                dbserv.insert_data(table_name, server_name1, ip_address1_server, status1, location1)
-                dbserv_fun(dbserv)
+                server_db.insert_data(table_name, server_name, server_ip_address, status, location)
+                server_db_fun(server_db)
             case '3':
-                dbserv.display_table(table_name)
-                dbserv_fun(dbserv)
+                server_db.display_table(table_name)
+                server_db_fun(server_db)
             case '4':
-                dbserv.clear_table(table_name)
-                dbserv_fun(dbserv)
+                server_db.clear_table(table_name)
+                server_db_fun(server_db)
             case '5':
-                dbserv.delete_table(table_name)
-                dbserv_fun(dbserv)
+                server_db.delete_table(table_name)
+                server_db_fun(server_db)
             case '0':
                 return
             case _:
                 print("Некорректный выбор, попробуйте снова.")
 
 
-def dbcon_fun(dbcon):
+def connection_db_fun(connection_db):
 
     table_name = 'connections'
-    user_table_name1 = 'vpn_user2'
-    email1 = 'pilv2022@gmail.com'
+    user_table_name = 'vpn_user2'
+    email = 'pilv2022@gmail.com'
     connection_time = datetime.now()
     time.sleep(2)
     disconnection_time = datetime.now()
     location = 'Moscow'
-    ip = '192.168.0.1:5433'
+    ip_address = '192.168.0.1:5433'
 
     print(f'Таблица {table_name}')
     print("1 - Создать таблицу")
@@ -123,20 +122,20 @@ def dbcon_fun(dbcon):
 
     match choice:
             case '1':
-                dbcon.create_connection_table(table_name)
-                dbcon_fun(dbcon)
+                connection_db.create_connection_table(table_name)
+                connection_db_fun(connection_db)
             case '2':
-                dbcon.insert_data(user_table_name1, table_name, email1, connection_time, disconnection_time, ip, location)
-                dbcon_fun(dbcon)
+                connection_db.insert_data(user_table_name, table_name, email, connection_time, disconnection_time, ip_address, location)
+                connection_db_fun(connection_db)
             case '3':
-                dbcon.display_table(table_name)
-                dbcon_fun(dbcon)
+                connection_db.display_table(table_name)
+                connection_db_fun(connection_db)
             case '4':
-                dbcon.clear_table(table_name)
-                dbcon_fun(dbcon)
+                connection_db.clear_table(table_name)
+                connection_db_fun(connection_db)
             case '5':
-                dbcon.delete_table(table_name)
-                dbcon_fun(dbcon)
+                connection_db.delete_table(table_name)
+                connection_db_fun(connection_db)
             case '0':
                 return
             case _:
@@ -144,11 +143,20 @@ def dbcon_fun(dbcon):
 
 
 if __name__ == "__main__":
+    log_dir = "logs"
+    try:
+        user_db = UserDatabase(settings, log_dir)
+        user_db_fun(user_db)
 
-    dbuser = UserDatabase(settings)
-    dbuser_fun(dbuser)
-    dbserv = ServerDatabase(settings)
-    dbserv.create_server_status_type()
-    dbserv_fun(dbserv)
-    dbcon = ConnectionDatabase(settings)
-    dbcon_fun(dbcon)
+        server_db = ServerDatabase(settings, log_dir)
+        server_db.create_server_status_type()
+        server_db_fun(server_db)
+
+        connection_db = ConnectionDatabase(settings, log_dir)
+        connection_db_fun(connection_db)
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+    finally:
+        user_db.close()
+        server_db.close()
+        connection_db.close()

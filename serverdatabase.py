@@ -1,12 +1,12 @@
 from psycopg2 import sql
-from logger_setup import setup_logger
+from logger_config import get_logger
 from database import Database
 
 # Класс для работы с базой данных серверов
 class ServerDatabase(Database):
     # Конструктор
-    def __init__(self, settings):
-        self.logger = setup_logger('logs', 'server_database.log')
+    def __init__(self, settings, log_dir: str = "logs"):
+        self.logger = get_logger(log_dir, "server_database.log", "INFO")
         super().__init__(settings, self.logger)
 
     # создание ENUM типа
@@ -25,6 +25,7 @@ class ServerDatabase(Database):
                 self.logger.info("ENUM type 'server_status' created or already exists.")
         except Exception as e:
             self.logger.error(f"Error creating ENUM type 'server_status': {e}")
+            raise
     
     # создание таблицы
     def create_server_table(self, table_name):
@@ -40,21 +41,16 @@ class ServerDatabase(Database):
         
         try:
             with self.connection.cursor() as cursor:
-                cursor.execute(
-                    create_server_table_sql
-                )
-                if cursor.rowcount > 0:
-                    self.logger.info(f"Table {table_name} created")
-                else:
-                    self.logger.info(f"Table {table_name} already exists")
+                cursor.execute(create_server_table_sql)
+                self.logger.info(f"Table {table_name} created or already exists")
+            self.connection.commit()
         except Exception as e:
             self.logger.error(f"Error creating table {table_name}: {e}")
+            raise
 
     # добавление данных
-    def insert_data(self, table_name, server_name, ip_address, status, location):
-
-        check_sql = sql.SQL("SELECT * FROM {} WHERE server_name = %s").format(sql.Identifier(table_name))
-
+    def insert_data(self, table_name: str, server_name: str, ip_address: str, status: str, location: str) -> None:
+        check_sql = sql.SQL("SELECT 1 FROM {} WHERE server_name = %s").format(sql.Identifier(table_name))
         insert_sql = sql.SQL("INSERT INTO {} (server_name, ip_address, status, location) VALUES (%s, %s, %s, %s);").format(sql.Identifier(table_name))
 
         try:
@@ -69,8 +65,9 @@ class ServerDatabase(Database):
                     self.logger.info(f"Insert new data in table {table_name}: {server_name}, {ip_address}, {status}, {location}")
                 else:
                     self.logger.info(f"Server with name: {server_name} already exists")
-                    pass
+                    return
 
             self.connection.commit()
         except Exception as e:
             self.logger.error(f"Error with data inserting: {e}")
+            raise

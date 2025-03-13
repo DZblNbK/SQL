@@ -23,4 +23,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env")
     
 
-settings = Settings()
+try:
+    settings = Settings()
+except Exception as e:
+    raise ValueError(f"Ошибка загрузки конфигурации из .env: {e}")

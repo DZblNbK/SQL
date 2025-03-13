@@ -1,15 +1,13 @@
 from psycopg2 import sql
-from logger_setup import setup_logger
+from logger_config import get_logger
 from database import Database
-from config import settings
-from datetime import datetime
 
 
 # Класс для работы с базой данных подключений
 class ConnectionDatabase(Database):
 
-    def __init__(self, settings):
-        self.logger = setup_logger('logs', 'connection_database.log')
+    def __init__(self, settings, log_dir: str = "logs"):
+        self.logger = get_logger(log_dir, "connection_database.log", "INFO")
         super().__init__(settings, self.logger)
 
     
@@ -30,15 +28,14 @@ class ConnectionDatabase(Database):
                 cursor.execute(
                     create_connection_table_sql
                 )
-                if cursor.rowcount > 0:
-                    self.logger.info(f"Table {table_name} created")
-                else:
-                    self.logger.info(f"Table {table_name} already exists")
+                self.logger.info(f"Table {table_name} created or already exists")
+            self.connection.commit()
         except Exception as e:
             self.logger.error(f"Error creating table {table_name}: {e}")
+            raise
 
     
-    def insert_data(self, user_table_name, table_name, email, connection_time, disconnection_time, ip_address, location):
+    def insert_data(self, user_table_name: str, table_name: str, email: str, connection_time, disconnection_time, ip_address: str, location: str) -> None:
         # Проверка существования пользователя
         find_user_id_sql = sql.SQL("SELECT id FROM {} WHERE email = %s;").format(sql.Identifier(user_table_name))
         insert_sql = sql.SQL("INSERT INTO {} (user_id, connection_time, disconnection_time, ip_address, location) VALUES (%s, %s, %s, %s, %s);").format(sql.Identifier(table_name))
@@ -62,3 +59,4 @@ class ConnectionDatabase(Database):
             self.connection.commit()
         except Exception as e:
             self.logger.error(f"Error inserting info about connection: {e}. SQL: {insert_sql}, Params: {(user_id, connection_time, disconnection_time, ip_address, location)}")
+            raise
