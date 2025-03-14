@@ -1,12 +1,11 @@
 from psycopg2 import sql
-from logger_config import get_logger
-from database import Database
+from logger import get_logger
+from db import Database
 import bcrypt
 
 #Класс для работы с базой данных пользователей.
 class UserDatabase(Database):
-
-    # конструктор
+    #конструктор
     def __init__(self, settings, log_dir: str = "logs"):
         self.logger = get_logger(log_dir, "user_database.log", "INFO")
         super().__init__(settings, self.logger)
@@ -24,7 +23,7 @@ class UserDatabase(Database):
             return False
 
 
-    def create_user_table(self, table_name: str) -> None:
+    def create_table(self, table_name: str) -> None:
         create_user_table_sql = sql.SQL("""
             CREATE TABLE IF NOT EXISTS {} (
                 id SERIAL PRIMARY KEY,
@@ -115,7 +114,7 @@ class UserDatabase(Database):
             raise
 
 
-    def update_password_in_table(self, table_name: str, email: str, old_password: str, new_password: str) -> None:
+    def update_password(self, table_name: str, email: str, old_password: str, new_password: str) -> None:
         """Обновление пароля пользователя с проверкой старого пароля.
 
         Args:

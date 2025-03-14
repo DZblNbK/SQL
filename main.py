@@ -1,8 +1,8 @@
 from config import settings
 from datetime import datetime
-from userdatabase import UserDatabase
-from conectdatabase import ConnectionDatabase
-from serverdatabase import ServerDatabase
+from users import UserDatabase
+from connections import ConnectionDatabase
+from servers import ServerDatabase
 import time
 
 
@@ -30,13 +30,13 @@ def user_db_fun(user_db):
 
     match choice:
             case '1':
-                user_db.create_user_table(table_name)
+                user_db.create_table(table_name)
                 user_db_fun(user_db)
             case '2':
                 user_db.insert_data(table_name, name, age, email, password)
                 user_db_fun(user_db)
             case '3':
-                user_db.update_password_in_table(table_name, email, password, new_password)
+                user_db.update_password(table_name, email, password, new_password)
                 user_db_fun(user_db)
             case '4':
                 user_db.update_table(table_name, email, name)
@@ -54,6 +54,7 @@ def user_db_fun(user_db):
                 user_db.delete_table(table_name)
                 user_db_fun(user_db)
             case '0':
+                user_db.close()
                 return
             case _:
                 print("Некорректный выбор, попробуйте снова.")
@@ -63,7 +64,7 @@ def server_db_fun(server_db):
 
     table_name = 'vpn_server'
     server_name = 'FirstServer'
-    server_ip_address = '127.0.0.1:55555'
+    server_ip = '127.0.0.1:55555'
     status = 'Activate'
     location = 'Latvia'
 
@@ -79,10 +80,10 @@ def server_db_fun(server_db):
 
     match choice:
             case '1':
-                server_db.create_server_table(table_name)
+                server_db.create_table(table_name)
                 server_db_fun(server_db)
             case '2':
-                server_db.insert_data(table_name, server_name, server_ip_address, status, location)
+                server_db.insert_data(table_name, server_name, server_ip, status, location)
                 server_db_fun(server_db)
             case '3':
                 server_db.display_table(table_name)
@@ -94,6 +95,7 @@ def server_db_fun(server_db):
                 server_db.delete_table(table_name)
                 server_db_fun(server_db)
             case '0':
+                server_db.close()
                 return
             case _:
                 print("Некорректный выбор, попробуйте снова.")
@@ -108,7 +110,7 @@ def connection_db_fun(connection_db):
     time.sleep(2)
     disconnection_time = datetime.now()
     location = 'Moscow'
-    ip_address = '192.168.0.1:5433'
+    connection_ip = '192.168.0.1:5433'
 
     print(f'Таблица {table_name}')
     print("1 - Создать таблицу")
@@ -122,10 +124,10 @@ def connection_db_fun(connection_db):
 
     match choice:
             case '1':
-                connection_db.create_connection_table(table_name)
+                connection_db.create_table(table_name, user_table_name)
                 connection_db_fun(connection_db)
             case '2':
-                connection_db.insert_data(user_table_name, table_name, email, connection_time, disconnection_time, ip_address, location)
+                connection_db.insert_data(user_table_name, table_name, email, connection_time, disconnection_time, connection_ip, location)
                 connection_db_fun(connection_db)
             case '3':
                 connection_db.display_table(table_name)
@@ -137,6 +139,7 @@ def connection_db_fun(connection_db):
                 connection_db.delete_table(table_name)
                 connection_db_fun(connection_db)
             case '0':
+                connection_db.close()
                 return
             case _:
                 print("Некорректный выбор, попробуйте снова.")
@@ -149,14 +152,10 @@ if __name__ == "__main__":
         user_db_fun(user_db)
 
         server_db = ServerDatabase(settings, log_dir)
-        server_db.create_server_status_type()
+        server_db.create_status_type()
         server_db_fun(server_db)
 
         connection_db = ConnectionDatabase(settings, log_dir)
         connection_db_fun(connection_db)
     except Exception as e:
         print(f"Произошла ошибка: {e}")
-    finally:
-        user_db.close()
-        server_db.close()
-        connection_db.close()

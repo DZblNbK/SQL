@@ -1,6 +1,6 @@
 from psycopg2 import sql
-from logger_config import get_logger
-from database import Database
+from logger import get_logger
+from db import Database
 
 
 # Класс для работы с базой данных подключений
@@ -11,17 +11,17 @@ class ConnectionDatabase(Database):
         super().__init__(settings, self.logger)
 
     
-    def create_connection_table(self, table_name):
+    def create_table(self, table_name, user_table_name):
         create_connection_table_sql = sql.SQL("""
             CREATE TABLE IF NOT EXISTS {} (
                 id SERIAL PRIMARY KEY,
-                user_id INT REFERENCES vpn_user2(id) ON DELETE CASCADE,
+                user_id INT REFERENCES {} (id) ON DELETE CASCADE,
                 connection_time TIMESTAMP NOT NULL,
                 disconnection_time TIMESTAMP,
                 ip_address VARCHAR NOT NULL,
                 location VARCHAR
             );
-        """).format(sql.Identifier(table_name))
+        """).format(sql.Identifier(table_name), sql.Identifier(user_table_name))
         
         try:
             with self.connection.cursor() as cursor:

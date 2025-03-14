@@ -35,8 +35,6 @@ class Database:
                 cursor.execute(display_sql)
                 rows = cursor.fetchall()
                 self.logger.info(f"Displaying data from table {table_name}: {rows}")
-                for row in rows:
-                    print(row)
         except Exception as e:
             self.logger.error(f"Error displaying table {table_name}: {e}")
 

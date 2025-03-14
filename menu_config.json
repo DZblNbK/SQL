@@ -1,0 +1,39 @@
+{
+    "users": {
+      "table_name": "vpn_user2",
+      "actions": {
+        "1": {
+          "description": "Создать таблицу",
+          "method": "create_user_table",
+          "args": ["table_name"]
+        },
+        "2": {
+          "description": "Добавить данные в таблицу",
+          "method": "insert_data",
+          "args": ["table_name", "name", "age", "email", "password"],
+          "defaults": {
+            "name": "Ilya",
+            "age": 22,
+            "email": "piv222@gmail.com",
+            "password": "63613"
+          },
+          "prompt": {
+            "name": "Введите имя пользователя: ",
+            "age": "Введите возраст: ",
+            "email": "Введите email: ",
+            "password": "Введите пароль: "
+          }
+        },
+        "3": {
+          "description": "Поменять пароль",
+          "method": "update_password_in_table",
+          "args": ["table_name", "email", "old_password", "new_password"],
+          "defaults": {
+            "email": "piv222@gmail.com",
+            "old_password": "63613",
+            "new_password": "09244"
+          }
+        }
+      }
+    }
+  }

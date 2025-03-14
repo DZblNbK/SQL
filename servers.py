@@ -1,6 +1,6 @@
 from psycopg2 import sql
-from logger_config import get_logger
-from database import Database
+from logger import get_logger
+from db import Database
 
 # Класс для работы с базой данных серверов
 class ServerDatabase(Database):
@@ -10,7 +10,7 @@ class ServerDatabase(Database):
         super().__init__(settings, self.logger)
 
     # создание ENUM типа
-    def create_server_status_type(self):
+    def create_status_type(self):
         try:
             with self.connection.cursor() as cursor:
                 cursor.execute("""
@@ -28,7 +28,7 @@ class ServerDatabase(Database):
             raise
     
     # создание таблицы
-    def create_server_table(self, table_name):
+    def create_table(self, table_name):
         create_server_table_sql = sql.SQL("""
             CREATE TABLE IF NOT EXISTS {} (
                 id SERIAL PRIMARY KEY,
